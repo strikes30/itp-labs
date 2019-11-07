@@ -22,11 +22,14 @@ def myNetwork():
     info( '*** Add hosts\n')
     h1 = net.addHost('h1', cls=Host, ip=None, mac='00:00:10:00:00:64')
     h2 = net.addHost('h2', cls=Host, ip=None, mac='00:00:10:00:01:64')
+    h3 = net.addHost('h3', cls=Host, ip=None, mac='00:00:10:00:02:64')
 
    
     info( '*** Add links\n')
     net.addLink(h1, r1)
     net.addLink(h2, r1)
+    net.addLink(h3, r1)
+
 
     info( '*** Starting network\n')
     net.build()
@@ -38,6 +41,7 @@ def myNetwork():
     info( '*** Starting switches\n')
     r1.intf( 'r1-eth0' ).config(mac='00:00:10:00:00:01')
     r1.intf( 'r1-eth1' ).config(mac='00:00:10:00:01:01')
+    r1.intf( 'r1-eth2' ).config(mac='00:00:10:00:02:01')
 
     info( '*** Turn off IPv6\n')
     r1.cmd('sysctl -w net.ipv6.conf.all.disable_ipv6=1')
@@ -46,6 +50,9 @@ def myNetwork():
     h1.cmd('sysctl -w net.ipv6.conf.default.disable_ipv6=1')
     h2.cmd('sysctl -w net.ipv6.conf.all.disable_ipv6=1')
     h2.cmd('sysctl -w net.ipv6.conf.default.disable_ipv6=1')
+    h3.cmd('sysctl -w net.ipv6.conf.all.disable_ipv6=1')
+    h3.cmd('sysctl -w net.ipv6.conf.default.disable_ipv6=1')
+
 
     info( '*** Post configure switches and hosts\n')
 
