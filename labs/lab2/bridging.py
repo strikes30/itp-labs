@@ -17,12 +17,12 @@ def myNetwork():
 
 
     info( '*** Add switches\n')
-    s1 = net.addHost('s1', cls=Node)
+    s1 = net.addHost('s1', cls=Node, ip=None)
 
     info( '*** Add hosts\n')
-    h1 = net.addHost('h1', cls=Host, mac='00:00:10:10:00:01')
-    h2 = net.addHost('h2', cls=Host, mac='00:00:10:10:00:02')
-    h3 = net.addHost('h3', cls=Host, mac='00:00:10:10:00:03')
+    h1 = net.addHost('h1', cls=Host, ip=None, mac='00:00:10:10:00:01')
+    h2 = net.addHost('h2', cls=Host, ip=None, mac='00:00:10:10:00:02')
+    h3 = net.addHost('h3', cls=Host, ip=None, mac='00:00:10:10:00:03')
 
     info( '*** Add links\n')
     #net.addLink(s1, h1, 0, 0)
@@ -39,6 +39,17 @@ def myNetwork():
         controller.start()
 
     info( '*** Starting switches\n')
+
+    info( '*** Turn off IPv6\n')
+    s1.cmd('sysctl -w net.ipv6.conf.all.disable_ipv6=1')
+    s1.cmd('sysctl -w net.ipv6.conf.default.disable_ipv6=1')
+    h1.cmd('sysctl -w net.ipv6.conf.all.disable_ipv6=1')
+    h1.cmd('sysctl -w net.ipv6.conf.default.disable_ipv6=1')
+    h2.cmd('sysctl -w net.ipv6.conf.all.disable_ipv6=1')
+    h2.cmd('sysctl -w net.ipv6.conf.default.disable_ipv6=1')
+    h3.cmd('sysctl -w net.ipv6.conf.all.disable_ipv6=1')
+    h3.cmd('sysctl -w net.ipv6.conf.default.disable_ipv6=1')
+
 
     info( '*** Post configure switches and hosts\n')
 
