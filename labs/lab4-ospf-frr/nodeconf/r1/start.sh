@@ -2,6 +2,7 @@
 
 BASE_DIR=nodeconf
 NODE_NAME=r1
+FRR_PATH=/usr/lib/frr
 
 #enable IPv4 forwarding
 sysctl -w net.ipv4.ip_forward=1
@@ -15,10 +16,12 @@ for i in /proc/sys/net/ipv4/conf/*/rp_filter ; do
 done
 
 
-chown quagga:quagga $BASE_DIR/$NODE_NAME
+echo "no service integrated-vtysh-config" >> /etc/frr/vtysh.conf
+chown frr:frrvty $BASE_DIR/$NODE_NAME
+#chown quagga:quagga $BASE_DIR/$NODE_NAME
 
-zebra -f $PWD/$BASE_DIR/$NODE_NAME/zebra.conf -d -z $PWD/$BASE_DIR/$NODE_NAME/zebra.sock -i $PWD/$BASE_DIR/$NODE_NAME/zebra.pid
+$FRR_PATH/zebra -f $PWD/$BASE_DIR/$NODE_NAME/zebra.conf -d -z $PWD/$BASE_DIR/$NODE_NAME/zebra.sock -i $PWD/$BASE_DIR/$NODE_NAME/zebra.pid
 
 sleep 1
 
-ospfd -f $PWD/$BASE_DIR/$NODE_NAME/ospfd.conf -d -z $PWD/$BASE_DIR/$NODE_NAME/zebra.sock -i $PWD/$BASE_DIR/$NODE_NAME/ospfd.pid
+$FRR_PATH/ospfd -f $PWD/$BASE_DIR/$NODE_NAME/ospfd.conf -d -z $PWD/$BASE_DIR/$NODE_NAME/zebra.sock -i $PWD/$BASE_DIR/$NODE_NAME/ospfd.pid
