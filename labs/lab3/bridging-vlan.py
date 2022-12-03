@@ -53,7 +53,7 @@ def myNetwork():
     info( '*** Setup IPv4\n')
     h1.cmd('ip address add 10.0.0.1/24 dev h1-eth0')
     h2.cmd('ip address add 10.0.0.2/24 dev h2-eth0')
-    h1.cmd('ip address add 10.0.0.3/24 dev h3-eth0')
+    h3.cmd('ip address add 10.0.0.3/24 dev h3-eth0')
 
     info( '*** Starting switches\n')
     s1.cmd('ip link add br0 type bridge')
